@@ -1,5 +1,6 @@
 import { List, Map } from 'immutable';
 
+// public methods
 export function setEntries(state, entries) {
     // as a param entries can be any thing iterable
     // but once it gets added into state we need to make sure that it is immutable
@@ -7,7 +8,9 @@ export function setEntries(state, entries) {
 }
 
 export function next(state) {
-    const entries = state.get('entries');
+    // if there is/are winner concat them to the entries list before starting next round
+    const entries = state.get('entries').concat(getWinners(state.get('vote')));;
+    
     // put new object in to existing state
     return state.merge({
         vote: Map({ pair: entries.take(2) }),
@@ -25,3 +28,21 @@ export function vote(state, entry) {
         tally => tally + 1
     );
 }
+// end public methods
+
+// private methods
+function getWinners(vote) {
+    if (!vote) return [];
+    // destructuring values in pair
+    const [a, b] = vote.get('pair');
+
+    // get their scores
+    const aVotes = vote.getIn(['tally', a], 0);
+    const bVotes = vote.getIn(['tally', b], 0);
+
+    // find winner
+    if (aVotes > bVotes) return [a];
+    else if (aVotes < bVotes) return [b];
+    else return [a, b];
+}
+// end private methods
