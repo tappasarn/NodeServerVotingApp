@@ -9,13 +9,21 @@ export function setEntries(state, entries) {
 
 export function next(state) {
     // if there is/are winner concat them to the entries list before starting next round
-    const entries = state.get('entries').concat(getWinners(state.get('vote')));;
-    
-    // put new object in to existing state
-    return state.merge({
-        vote: Map({ pair: entries.take(2) }),
-        entries: entries.skip(2)
-    });
+    const entries = state.get('entries')
+        .concat(getWinners(state.get('vote')));
+    if (entries.size === 1) {
+        // we got winner
+        // vote and entries can be remove out of state
+        return state.remove('vote')
+            .remove('entries')
+            .set('winner', entries.first());
+    } else {
+        // put new object in to existing state
+        return state.merge({
+            vote: Map({ pair: entries.take(2) }),
+            entries: entries.skip(2)
+        });
+    }
 }
 
 export function vote(state, entry) {
