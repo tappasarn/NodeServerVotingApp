@@ -11,4 +11,11 @@ export default function startServer(store) {
         // but it is good enough for this example
         () => io.emit('state', store.getState().toJS())
     );
+
+    // each time there is a connection from client
+    // send them the current state
+    // so they will be in sync with the server
+    io.on('connection', (socket) => {
+        socket.emit('state', store.getState().toJS());
+    });
 }
