@@ -1,5 +1,9 @@
 import { List, Map } from 'immutable';
 
+// constant
+export const INITIAL_STATE = Map();
+// end constant
+
 // public methods
 export function setEntries(state, entries) {
     // as a param entries can be any thing iterable
@@ -18,7 +22,7 @@ export function next(state) {
             .remove('entries')
             .set('winner', entries.first());
     } else {
-        // put new object in to existing state
+        // start the next round
         return state.merge({
             vote: Map({ pair: entries.take(2) }),
             entries: entries.skip(2)
