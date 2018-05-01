@@ -30,12 +30,12 @@ export function next(state) {
     }
 }
 
-export function vote(state, entry) {
-    // update object by the following path (vote.tally.entryVariable)
+export function vote(voteState, entry) {
+    // update object by the following path (tally.entryVariable)
     // if path is missing create a new Map()
     // if entryVariable does not yet have value init it with 0
-    return state.updateIn(
-        ['vote', 'tally', entry],
+    return voteState.updateIn(
+        ['tally', entry],
         0,
         tally => tally + 1
     );

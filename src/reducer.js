@@ -10,7 +10,11 @@ export default function reducer(state = INITIAL_STATE, action) {
         case 'NEXT':
             return next(state);
         case 'VOTE':
-            return vote(state, action.entry)
+            // since vote function only take 'vote' part of the state
+            // it is the job of the reducer to unpack the correct part
+            // and pass it as an argument to the core function
+            return state.update('vote',
+            voteState => vote(voteState, action.entry));
     }
     // incase that reducer cant match any action 
     // return state w/o doing anything
