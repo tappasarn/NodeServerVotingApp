@@ -85,6 +85,8 @@ describe('reducer', () => {
             { type: 'VOTE', entry: 'Trainspotting' },
             { type: 'NEXT' }
         ];
+
+        // see array.prototype.reduce
         const finalState = actions.reduce(reducer, Map());
 
         expect(finalState).to.equal(fromJS({

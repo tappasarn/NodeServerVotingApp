@@ -3,6 +3,8 @@ import { setEntries, next, vote, INITIAL_STATE } from './core';
 // Reducer's job is to find out which core function to call 
 // function will be called acording to action type
 // it also need to be able to unpack aditional arg and pass it to core function as well
+// Every reducer is fired at least once when the store is initialized with action { type: "@@redux/INIT"}
+// at that time state is undefined so we need default value for the first round
 export default function reducer(state = INITIAL_STATE, action) {
     switch (action.type) {
         case 'SET_ENTRIES':
